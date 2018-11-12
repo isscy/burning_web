@@ -46,7 +46,7 @@ export default {
             throw r.message
           }
           const data = r.data
-          sessionStorage.setItem('token', 'Bearer ' + data.token)
+          // sessionStorage.setItem('token', 'Bearer ' + data.token)
           commit('setToken', 'Bearer ' + data.token)
           commit('setUserName', data.nickName)
           commit('setUserId', data.id)

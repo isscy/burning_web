@@ -6,13 +6,15 @@ import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 export const TOKEN_KEY = 'token'
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, {expires: config.cookieExpires || 1})
+  // Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+  sessionStorage.setItem('token', token)
 }
 
 export const getToken = () => {
-  const token = Cookies.get(TOKEN_KEY)
-  if (token) return token
-  else return false
+  /* const token = Cookies.get(TOKEN_KEY)
+    if (token) return token
+    else return false */
+  return sessionStorage.getItem('token')
 }
 
 export const hasChild = (item) => {
@@ -59,7 +61,7 @@ export const getBreadCrumbList = (route, homeRoute) => {
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hide
   }).map(item => {
-    let meta = {...item.meta}
+    let meta = { ...item.meta }
     if (meta.title && typeof meta.title === 'function') meta.title = meta.title(route)
     let obj = {
       icon: (item.meta && item.meta.icon) || '',
@@ -71,12 +73,12 @@ export const getBreadCrumbList = (route, homeRoute) => {
   res = res.filter(item => {
     return !item.meta.hideInMenu
   })
-  return [{...homeItem, to: homeRoute.path}, ...res]
+  return [{ ...homeItem, to: homeRoute.path }, ...res]
 }
 
 export const getRouteTitleHandled = route => {
-  let router = {...route}
-  let meta = {...route.meta}
+  let router = { ...route }
+  let meta = { ...route.meta }
   if (meta.title && typeof meta.title === 'function') meta.title = meta.title(router)
   router.meta = meta
   return router
